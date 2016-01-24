@@ -93,9 +93,55 @@ byte eq[8] = {
   0b00000
 };
 
+byte status1[8] = { 
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b11111
+};
+byte status2[8] = { 
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b11111,
+  0b00000,
+  0b11111
+};
+byte status3[8] = { 
+  0b00000,
+  0b00000,
+  0b11111,
+  0b00000,
+  0b11111,
+  0b00000,
+  0b11111
+};
+byte status4[8] = { 
+  0b11111,
+  0b00000,
+  0b11111,
+  0b00000,
+  0b11111,
+  0b00000,
+  0b11111
+};
+byte blank[8] = { 
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000,
+  0b00000
+};
 
   int16_t lasttemp = 0;
   int8_t lasthum =0;
+  int statuscnt = 4;
   
 void setup() {
   if (F_CPU == 16000000) clock_prescale_set(clock_div_1); // 5V Trinket: run at 16 MHz
@@ -108,14 +154,19 @@ void setup() {
   lcd.createChar(1, up);
   lcd.createChar(2, down);
   lcd.createChar(3, eq);
-
+  //lcd.createChar(4, blank);
+  lcd.createChar(4, status1);
+  lcd.createChar(5, status2);
+  lcd.createChar(6, status3);
+  lcd.createChar(7, status4);
+  
 }
 
 void loop() {
   int8_t h = dht.readHumidity();
   int16_t t = dht.readTemperature(TEMPTYPE);
   
-  for (int i=0; i<60; i++) {
+  for (int i=0; i<600; i++) {
     int8_t h = dht.readHumidity();
     int16_t t = dht.readTemperature(TEMPTYPE);
    
@@ -166,7 +217,8 @@ void loop() {
           lcd.print(" ");
           //lcd.print(lasttemp);
         } 
-        
+        lcd.setCursor(15,1);
+        lcd.print((char)statuscnt);
         //lcd.print(lasttemp);
         /*else {
           lcd.setCursor(15, 1);
@@ -176,9 +228,13 @@ void loop() {
         //lcd.setCursor(14,1);
         //lcd.print(lasttemp);
     }
-    delay(2000);
+    delay(200);
     lasttemp = (lasttemp + t) / 2;
     lasthum = (lasthum + h) / 2;
+    statuscnt++;
+    if (statuscnt > 7) {
+      statuscnt = 4;
+    }
   }
     lasttemp = t;
     lasthum = h;
