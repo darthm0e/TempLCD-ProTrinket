@@ -1,5 +1,6 @@
 ## ProTrinket TempLCD
 Small Temperature and Humidity Display
+2 Arrow Indicators showing tendency (PoC).
 
 ###### Actually parts in use:
 
