@@ -18,3 +18,7 @@ Small Temperature and Humidity Display
 
 - AdaFruit TinyDHT Library
 - Standard Arduino Stuff
+
+###### Helpfull Links
+http://www.quinapalus.com/hd44780udg.html
+https://learn.adafruit.com/trinket-temperature-humidity-lcd-display/the-lcd-display
